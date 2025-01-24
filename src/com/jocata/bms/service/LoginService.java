@@ -8,4 +8,8 @@ public interface LoginService {
 
     public String signIn(String uname, String pwd) ;
 
+    public String forgetPassword( UserDetailsBean udb ) ;
+
+    public String deleteUser( UserDetailsBean udb ) ;
+
 }

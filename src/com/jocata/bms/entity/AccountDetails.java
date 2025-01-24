@@ -1,6 +1,8 @@
 package com.jocata.bms.entity;
 
-public class AccountDetails {
+import java.io.Serializable;
+
+public class AccountDetails implements Serializable {
 
     public String name;
     public String accountNumber;

@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.jocata.bms.db.InMemoryCRUD.*;
+
 public class LoginDaoImpl implements LoginDao {
 
     File f1 ;
@@ -21,16 +23,13 @@ public class LoginDaoImpl implements LoginDao {
 
     public String signUp( UserDetails ud ) {
 
-        String [] data = { ud.getFname(), ud.getLname(), ud.getUsername(), ud.getPwd(), ud.getEmail(), ud.getContact() };
-
-        // writing data to file
-        writeFile( data );
-
-        // reading data from file
-
+//        String [] data = { ud.getFname(), ud.getLname(), ud.getUsername(), ud.getPwd(), ud.getEmail(), ud.getContact() };
+//        writeFile( data );
+        persist( ud );
 
         return null;
     }
+
 
     public String signIn( String uname, String pwd ) {
 
@@ -38,30 +37,63 @@ public class LoginDaoImpl implements LoginDao {
 //            return "File not exist.";
 //        }
 
-        if ( ! isValid( uname, pwd ) ) {
-            return "Invalid username or password.";
+        if ( isValid(uname, pwd)) {
+            return "Login successful.";
         };
-//        displayRecords();
-        return "Login successful.";
+        return "Invalid username or password.";
     }
 
     boolean isValid( String uname, String pwd ) {
 
-        List<List<String>> records = readFile();
-        for ( List<String> curRec : records ) {
-            if ( curRec.get( 2 ).equals( uname ) && curRec.get( 3 ).equals( pwd ) ) {
-                return true;
-            }
+//        List<List<String>> records = readFile();
+//        for ( List<String> curRec : records ) {
+//            if ( curRec.get( 2 ).equals( uname ) && curRec.get( 3 ).equals( pwd ) ) {
+//                return true;
+//            }
+//        }
+        return userExists(uname) && pwdMatches( uname, pwd);
+    }
+
+    boolean userExists( String uname ) {
+        UserDetails ud = read( uname );
+        System.out.printf( "UserName : %s\n", ud.getUserName() );
+        return ud.getUserName().equals(uname);
+    }
+
+    boolean pwdMatches( String uname, String pwd  ) {
+        if ( ! userExists( uname ) ) {
+            System.out.println("User does not exist");
+            return false;
         }
-        return false;
+        UserDetails ud = read( uname );
+        return ud.getPassword().equals( pwd );
+    }
+
+
+    public String forgetPassword( UserDetails ud ) {
+
+        if ( userExists( ud.getUserName() )  ) {
+            update( ud );
+            return "User Details Updated Successfully.";
+        }
+        return "Credentials are not valid.";
+    }
+
+    public String deleteUser( UserDetails ud ) {
+
+        if ( pwdMatches( ud.getUserName(), ud.getPassword() ) ) {
+            String un = ud.getUserName();
+            delete(  un );
+            return "User : " + un +  " Details Deleted Successfully.";
+        }
+        return "Credentials are not valid.";
     }
 
 
     void createFile( ) {
 
         try {
-
-            f1 = new File( "UserDetails.txt" );
+            f1 = new File( "UserDetails.ser" );
 
             if ( f1.createNewFile() ) {
                 System.out.println( "File created: " + f1.getName() );
@@ -72,7 +104,6 @@ public class LoginDaoImpl implements LoginDao {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     void writeFile( String [] data ) {
@@ -81,7 +112,6 @@ public class LoginDaoImpl implements LoginDao {
         for ( String s : data ) {
             sb1.append( s + ", " );
         }
-
         try {
             if ( f1 == null ) {
                 System.out.println( "File not created." );

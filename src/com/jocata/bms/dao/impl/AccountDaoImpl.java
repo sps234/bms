@@ -1,14 +1,12 @@
 package com.jocata.bms.dao.impl;
 
+
 import com.jocata.bms.dao.AccountDao;
 import com.jocata.bms.entity.AccountDetails;
+import java.io.*;
+import java.util.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
+import static com.jocata.bms.db.InMemoryAccountCRUD.*;
 
 
 public class AccountDaoImpl implements AccountDao  {
@@ -24,32 +22,41 @@ public class AccountDaoImpl implements AccountDao  {
 
     public String createAccount(AccountDetails accountDetails)  {
 
-        String [] data = { accountDetails.getName(), accountDetails.getAccountNumber(),
-                accountDetails.getAddress(), accountDetails.getContact() };
+//        String [] data = { accountDetails.getName(), accountDetails.getAccountNumber(),
+//                accountDetails.getAddress(), accountDetails.getContact() };
+//
+//        writeFile( data );
 
-        writeFile( data );
-
-        return null;
+        return saveAccount( accountDetails );
     }
 
-    public String editAccount( AccountDetails accountDetails ) {
+    public AccountDetails getAccount( String accountNumber ) {
+        return read( accountNumber );
+    }
 
-        return null;
+    public String updateAccount(AccountDetails accountDetails ) {
+        return update( accountDetails );
     }
 
     public String deleteAccount( String accountNumber ) {
-
-        return null;
+        return delete( accountNumber );
     }
 
-    public String getAccount( String accountNumber ) {
-
-        return null;
+    public List<AccountDetails> getAccounts( ) {
+        return readAll();
     }
 
-    public String getAccounts( ) {
-        displayRecords();
-        return null;
+
+    public AccountDetails getAccountByContact( String contact ) {
+        return fetchRecord( contact );
+    }
+
+    public AccountDetails getAccountByContactAndAddress( String contact, String address ) {
+        return fetchRecord( contact, address );
+    }
+
+    public AccountDetails getAccountByNameAndContactAndAddress( String name,String contact, String address ) {
+        return fetchRecord( name, contact, address );
     }
 
 
@@ -75,7 +82,7 @@ public class AccountDaoImpl implements AccountDao  {
 
         StringBuilder sb1 = new StringBuilder( );
         for ( String s : data ) {
-            sb1.append( s + ", " );
+            sb1.append(s).append(", ");
         }
 
         try {
@@ -88,7 +95,7 @@ public class AccountDaoImpl implements AccountDao  {
                     String header = "Name, AccountNumber, Address, Contact";
                     fw1.write( header + "\n" );
                 }
-                fw1.write( sb1.toString() + "\n" );
+                fw1.write( sb1 + "\n" );
                 fw1.close();
             }
 

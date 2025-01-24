@@ -1,6 +1,7 @@
 package com.jocata.bms.service.impl;
 
-import com.jocata.bms.bean.AccountBean;
+
+import com.jocata.bms.bean.AccountDetailsBean;
 import com.jocata.bms.dao.AccountDao;
 import com.jocata.bms.dao.impl.AccountDaoImpl;
 import com.jocata.bms.entity.AccountDetails;
@@ -16,49 +17,59 @@ public class AccountServiceImpl implements AccountService {
         accDao = new AccountDaoImpl();
     }
 
-    public String createAccount( AccountBean ab ) {
+    public String createAccount( AccountDetailsBean accountDetailsBean ) {
 
-        AccountDetails ad = new AccountDetails();
-        ad.setAccountNumber( ab.getAccountNumber() );
-        ad.setName( ab.getName() );
-        ad.setAddress( ab.getAddress() );
-        ad.setContact( ab.getContact().toString() );
+        AccountDetails accountDetails = new AccountDetails();
 
-        accDao.createAccount( ad );
+        accountDetails.setAccountNumber( accountDetailsBean.getAccountNumber() );
+        accountDetails.setName( accountDetailsBean.getName() );
+        accountDetails.setAddress( accountDetailsBean.getAddress() );
+        accountDetails.setContact(accountDetailsBean.getContact().toString() );
 
-        return null;
+        return accDao.createAccount( accountDetails );
     }
 
-    public String updateAccount( AccountBean ab ) {
+    public String updateAccount( AccountDetailsBean accountDetailsBean ) {
 
-        AccountDetails ad = new AccountDetails();
-        ad.setName( ab.getName() );
-        ad.setAddress( ab.getAddress() );
-        ad.setContact( ab.getContact().toString() );
+        AccountDetails accountDetails = new AccountDetails();
+        accountDetails.setAccountNumber( accountDetailsBean.getAccountNumber() );
+        accountDetails.setName( accountDetailsBean.getName() );
+        accountDetails.setAddress( accountDetailsBean.getAddress() );
+        accountDetails.setContact(accountDetailsBean.getContact().toString() );
 
-        accDao.editAccount( ad );
-
-        return null;
+        return accDao.updateAccount( accountDetails );
     }
 
-    public String deleteAccount( String accountNumber ) {
+    public String deleteAccount( Long accountNumber ) {
 
-        return null;
+        return accDao.deleteAccount( accountNumber.toString() );
     }
 
-    public AccountDetails getAccount( String accountNumber ) {
+    public AccountDetails getAccount( Long accountNumber ) {
 
-        return null;
+        return accDao.getAccount( accountNumber.toString() );
     }
 
     public List<AccountDetails> getAccounts( ) {
-        accDao.getAccounts();
-        return null;
+        return accDao.getAccounts();
     }
 
-    public List<String> showTransactions( Long accountNumber ) {
 
-        return null;
-    } ;
+    public AccountDetails getAccountByContact( Long contact ){
+        return accDao.getAccountByContact( String.valueOf( contact ) );
+    }
+
+    public AccountDetails getAccountByContactAndAddress( Long contact, String address ) {
+        return accDao.getAccountByContactAndAddress( String.valueOf( contact ), address );
+    }
+
+    public AccountDetails getAccountByNameAndContactAndAddress( String name, Long contact, String address ) {
+        return accDao.getAccountByNameAndContactAndAddress( name, String.valueOf( contact ), address );
+    }
+
+//    public List<String> showTransactions( Long accountNumber ) {
+//
+//        return null;
+//    } ;
 
 }

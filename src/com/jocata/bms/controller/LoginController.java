@@ -27,4 +27,13 @@ public class LoginController {
     public String signIn( String uname, String pwd ) {
         return service.signIn( uname, pwd );
     }
+
+    public String forgotPassword( UserDetailsBean udb ) {
+        return service.forgetPassword( udb );
+    }
+
+    public String deleteUser( UserDetailsBean udb ) {
+
+        return service.deleteUser( udb );
+    }
 }

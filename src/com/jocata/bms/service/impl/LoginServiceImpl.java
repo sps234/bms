@@ -8,30 +8,43 @@ import com.jocata.bms.service.LoginService;
 
 public class LoginServiceImpl implements LoginService  {
 
-    LoginDao dao ;
+    LoginDao dao = new LoginDaoImpl( );
 
     public String signUp( UserDetailsBean udb) {
 
         UserDetails ud = new UserDetails();
 
-        ud.setFname( udb.getFname() );
-        ud.setLname( udb.getLname() );
-        ud.setUsername( udb.getUsername() );
-        ud.setPwd( udb.getPwd() );
+        ud.setFirstName( udb.getFname() );
+        ud.setLastName( udb.getLname() );
+        ud.setUserName( udb.getUsername() );
+        ud.setPassword( udb.getPwd() );
         ud.setEmail( udb.getEmail() );
         ud.setContact( udb.getContact().toString() ) ;
 
-        dao =  new LoginDaoImpl( );
         dao.signUp( ud );
 
         return null;
     }
 
     public String signIn(String uname, String pwd) {
-
-        dao = new LoginDaoImpl( );
-
         return dao.signIn( uname, pwd );
+    }
+
+    public String forgetPassword( UserDetailsBean udb ) {
+
+        UserDetails ud = new UserDetails();
+        ud.setUserName( udb.getUsername() );
+        ud.setPassword( udb.getPwd() );
+        return dao.forgetPassword( ud );
+    }
+
+    public String deleteUser( UserDetailsBean udb ) {
+
+        UserDetails ud = new UserDetails();
+        ud.setUserName( udb.getUsername() );
+        ud.setPassword( udb.getPwd() );
+
+        return dao.deleteUser( ud );
     }
 
 }

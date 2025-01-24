@@ -1,6 +1,6 @@
 package com.jocata.bms.bean;
 
-public class AccountBean {
+public class AccountDetailsBean {
 
     public String name;
     public String accountNumber;

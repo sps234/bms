@@ -1,25 +1,27 @@
 package com.jocata.bms.entity;
 
-public class UserDetails {
+import java.io.Serializable;
 
-        private String fname;
-        private String lname;
+public class UserDetails implements Serializable {
+
+        private String firstName;
+        private String lastName;
         private String email;
-        private String username ;
-        private String pwd;
+        private String userName;
+        private String password;
         private String contact ;
 
-        public String getFname() {
-                return fname;
+        public String getFirstName() {
+                return firstName;
         }
-        public void setFname(String fname) {
-                this.fname = fname;
+        public void setFirstName(String firstName) {
+                this.firstName = firstName;
         }
-        public String getLname() {
-                return lname;
+        public String getLastName() {
+                return lastName;
         }
-        public void setLname(String lname) {
-                this.lname = lname;
+        public void setLastName(String lastName) {
+                this.lastName = lastName;
         }
         public String getEmail() {
                 return email;
@@ -27,17 +29,17 @@ public class UserDetails {
         public void setEmail(String email) {
                 this.email = email;
         }
-        public String getUsername() {
-                return username;
+        public String getUserName() {
+                return userName;
         }
-        public void setUsername(String username) {
-                this.username = username;
+        public void setUserName(String userName) {
+                this.userName = userName;
         }
-        public String getPwd() {
-                return pwd;
+        public String getPassword() {
+                return password;
         }
-        public void setPwd(String pwd) {
-                this.pwd = pwd;
+        public void setPassword(String password) {
+                this.password = password;
         }
         public String getContact() {
                 return contact;

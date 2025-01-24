@@ -1,7 +1,7 @@
 package com.jocata.bms.controller;
 
-import com.jocata.bms.bean.AccountBean;
-import com.jocata.bms.bean.UserDetailsBean;
+
+import com.jocata.bms.bean.AccountDetailsBean;
 import com.jocata.bms.entity.AccountDetails;
 import com.jocata.bms.service.AccountService;
 import com.jocata.bms.service.impl.AccountServiceImpl;
@@ -16,30 +16,38 @@ public class AccountController {
         accountService = new AccountServiceImpl();
     }
 
-    public String createAccount( AccountBean ab ) {
-        accountService.createAccount( ab );
-        return null;
+    public String createAccount( AccountDetailsBean accountDetailsBean ) {
+
+        return accountService.createAccount( accountDetailsBean );
     }
 
-    public String updateAccount( AccountBean ab ) {
-        accountService.updateAccount( ab );
-        return null;
+    public String updateAccount( AccountDetailsBean accountDetailsBean ) {
+
+        return accountService.updateAccount( accountDetailsBean );
     }
 
-    public String deleteAccount( String accountNumber ) {
-        accountService.deleteAccount( accountNumber );
-        return null;
+    public String deleteAccount( Long accountNumber ) {
+        return accountService.deleteAccount( accountNumber );
     }
 
-    public AccountDetails getAccount( String accountNumber ) {
-        accountService.getAccount( accountNumber );
-        return null;
+    public AccountDetails getAccount( Long accountNumber ) {
+        return accountService.getAccount( accountNumber );
     }
 
     public List<AccountDetails> getAccounts( ) {
-        accountService.getAccounts( );
-        return null;
+        return accountService.getAccounts( );
     }
 
+    public AccountDetails getAccountByContact( Long contact ) {
+        return accountService.getAccountByContact( contact );
+    }
+
+    public AccountDetails getAccountByContactAndAddress( Long contact, String address ) {
+        return accountService.getAccountByContactAndAddress( contact, address  );
+    }
+
+    public AccountDetails getAccountByNameAndContactAndAddress( String name,Long contact, String address ) {
+        return accountService.getAccountByNameAndContactAndAddress( name, contact, address );
+    }
 }
 
